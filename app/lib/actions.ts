@@ -102,8 +102,13 @@ export async function deleteInvoice(id: string) {
 }
 
 export async function authenticate(prevState: string | undefined, formData: FormData) {
+    const email = formData.get("email")?.toString() ?? "";
+    const password = formData.get("password")?.toString() ?? "";
+    const callbackUrl = formData.get("callbackUrl")?.toString() ?? "";
+
     try {
-        await signIn("credentials", formData);
+        await signIn("credentials", { redirect: false, email, password });
+        redirect(callbackUrl)
     } catch (error) {
         if (error instanceof AuthError) {
             switch (error.type) {
