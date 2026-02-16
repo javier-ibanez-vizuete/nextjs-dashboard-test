@@ -25,15 +25,15 @@ export type State = {
     errors?: {
         customerId?: string[];
         amount?: string[];
-        state?: string[];
+        status?: string[];
     },
-    message?: string | null;
+    message: string;
 }
 
 const CreateInvoice = FromSchema.omit({ id: true, date: true })
 
 
-export async function createInvoice(prevState: State, formData: FormData) {
+export async function createInvoice(prevState: State, formData: FormData): Promise<State> {
     const validateFields = CreateInvoice.safeParse({
         customerId: formData.get('customerId'),
         amount: formData.get('amount'),
@@ -65,7 +65,7 @@ export async function createInvoice(prevState: State, formData: FormData) {
 
 const UpdateInvoice = FromSchema.omit({ id: true, date: true })
 
-export async function updateInvoice(id: string, prevState: State, formData: FormData) {
+export async function updateInvoice(id: string, prevState: State, formData: FormData): Promise<State> {
     const validateFields = UpdateInvoice.safeParse({ customerId: formData.get("customerId"), amount: formData.get("amount"), status: formData.get("status") })
 
     if (!validateFields.success) {

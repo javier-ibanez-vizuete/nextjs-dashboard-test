@@ -8,7 +8,7 @@ import { State, updateInvoice } from "@/app/lib/actions";
 import { useActionState } from "react";
 
 export default function EditInvoiceForm({ invoice, customers }: { invoice: InvoiceForm; customers: CustomerField[] }) {
-	const initialState: State = { errors: {}, message: null };
+	const initialState: State = { errors: {}, message: "" };
 	const updateInvoceWithId = updateInvoice.bind(null, invoice.id);
 	const [state, formState] = useActionState(updateInvoceWithId, initialState);
 	return (
@@ -120,7 +120,7 @@ export default function EditInvoiceForm({ invoice, customers }: { invoice: Invoi
 					</div>
 				</fieldset>
 				<div id="status-error" aria-live="polite" aria-atomic="true">
-					{state.errors?.status &&
+					{state?.errors && state?.errors?.status &&
 						state.errors.status.map((error) => (
 							<p key={error} className="mt-2 text-sm text-red-500 italic opacity-80">
 								{error}
